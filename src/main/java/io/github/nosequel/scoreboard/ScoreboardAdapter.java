@@ -10,10 +10,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ScoreboardAdapter {
 
@@ -32,10 +29,10 @@ public class ScoreboardAdapter {
 
         final List<String> lines = element.getLines();
         final List<String> identifiers = this.identifiers.get(player);
+        Collections.reverse(lines);
 
         final Scoreboard board = this.getScoreboard(player);
         final Objective objective = this.getObjective(board);
-
 
         for (int index = 0; index < 16; index++) {
             final String identifier = ChatColor.values()[index].toString() + ChatColor.WHITE;
@@ -56,14 +53,13 @@ public class ScoreboardAdapter {
                 team.setSuffix(splitText[1]);
 
                 identifiers.add(identifier);
-                objective.getScore(identifier).setScore(-index);
+                objective.getScore(identifier).setScore(index);
             }
         }
 
         objective.setDisplayName(element.getTitle());
         player.setScoreboard(board);
     }
-
 
     /**
      * Clear the element from a player's scoreboard
